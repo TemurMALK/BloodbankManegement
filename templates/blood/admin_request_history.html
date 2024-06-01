@@ -1,0 +1,71 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{%load static%}
+<head>
+ <style>
+     .label {
+  color: white;
+  padding: 8px;
+}
+
+.success {background-color: #4CAF50;} /* Green */
+.info {background-color: #2196F3;} /* Blue */
+.warning {background-color: #ff9800;} /* Orange */
+.danger {background-color: #f44336;} /* Red */
+.other {background-color: #e7e7e7; color: black;} /* Gray */
+ </style>
+</head>
+<br><br>
+<div class="container">
+    <H4 class="text-center">История запроса крови</H4><br>
+    {% if message %}
+   <h5 class="text-center" style="color: red;"> {{message}}</h5><br>
+{% else %}
+
+{% endif %}
+    <table class="table table-light table-hover table-bordered table-striped">
+        <thead class="bg-info">
+            <tr>
+                <th scope="col">Имя пациента</th>
+                <th scope="col">Возраст</th>
+                
+                <th scope="col">Причина</th>
+                <th scope="col">Группа крови</th>
+                <th scope="col">Единица измерения (в мл)</th>
+                <th scope="col">Дата</th>
+                <th scope="col">Положение дел</th>
+                <th scope="col">Статус запасов</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in requests %}
+            <tr>
+                <td> {{t.patient_name}}</td>
+                <td>{{t.patient_age}}</td>
+                
+                
+                <td>{{t.reason}}</td>
+                <td>{{t.bloodgroup}}</td>
+                <td>{{t.unit}}</td>
+                <td>{{t.date}}</td>
+                {% if t.status == 'Approved' %}
+                <td><span class="label warning"> Одобренный</span></td>
+                <td><span class="label warning"> {{t.unit}} Единица вычтена из запаса</span></td>
+                {% else %}
+                <td><span class="label success">Отклоненный</span></td>
+                <td><span class="label success"> 0 Единица вычтена из запаса</span></td>
+                {% endif %}
+                
+                
+            
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    
+    </table>
+</div>
+
+{% endblock content %}
